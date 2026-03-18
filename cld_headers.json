@@ -1,0 +1,24 @@
+{
+  "statusCode": 401,
+  "headers": {
+    "date": "Wed, 18 Mar 2026 04:42:37 GMT",
+    "content-type": "application/pdf",
+    "content-length": "0",
+    "connection": "keep-alive",
+    "server": "cloudflare",
+    "cf-ray": "9de19260b8ce551f-DEL",
+    "accept-ranges": "bytes",
+    "access-control-allow-origin": "*",
+    "cache-control": "private, no-transform, max-age=0, no-cache",
+    "content-disposition": "inline",
+    "last-modified": "Wed, 18 Mar 2026 04:29:04 GMT",
+    "strict-transport-security": "max-age=604800",
+    "vary": "Accept-Encoding",
+    "pragma": "no-cache",
+    "access-control-expose-headers": "Content-Length,Content-Disposition,Server-Timing,X-Cld-Error,Vary",
+    "server-timing": "cld-cloudflare;dur=14;start=2026-03-18T04:42:37.567Z;desc=hit,rtt;dur=25,content-info;desc=\"width=841,height=595,bytes=198287,format=\"pdf\",o=1,crt=1773808143,ef=(17);\"",
+    "timing-allow-origin": "*",
+    "x-cld-error": "deny or ACL failure",
+    "x-request-id": "0e69da86a4a1261b4c0cde294e701ddb"
+  }
+}

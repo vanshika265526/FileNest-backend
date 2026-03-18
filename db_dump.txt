@@ -1,0 +1,9 @@
+Found 1 records in 'files' collection.
+
+--- FILE 1 ---
+ID:       69ba2a108f4581bdb6c6fa44
+Name:     Certificate.pdf
+URL:      https://res.cloudinary.com/dqzzgydyl/image/upload/v1773808143/minidrive-uploads/xm1muwjcrthzluiynokj.pdf
+Category: pdf
+C_ID:     minidrive-uploads/xm1muwjcrthzluiynokj
+------------------
