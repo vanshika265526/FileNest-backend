@@ -17,20 +17,17 @@ const app = express();
 
 // Middleware
 const allowedOrigins = [
-    process.env.CLIENT_URL,
-    'https://file-nest-frontend-3q1h.vercel.app', // Vercel production
-    'http://localhost:5173', // Vite dev server
-    'http://localhost:3000'  // General local testing
-].filter(Boolean);
+    "https://file-nest-frontend.vercel.app",
+    "http://localhost:5173"
+];
 
 app.use(cors({
     origin: (origin, callback) => {
-        // allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            return callback(new Error('The CORS policy for this site does not allow access from the specified Origin.'), false);
+        if (!origin || allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
         }
-        return callback(null, true);
     },
     credentials: true
 }));
