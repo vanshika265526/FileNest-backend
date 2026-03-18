@@ -18,6 +18,7 @@ const app = express();
 // Middleware
 const allowedOrigins = [
     process.env.CLIENT_URL,
+    'https://file-nest-frontend-3q1h.vercel.app', // Vercel production
     'http://localhost:5173', // Vite dev server
     'http://localhost:3000'  // General local testing
 ].filter(Boolean);
@@ -50,16 +51,6 @@ app.use('/api/files', fileRoutes);
 app.get('/api/health', (req, res) => {
     res.json({ status: 'ok', message: 'FileNest API is running' });
 });
-
-// Production: Serve frontend build
-if (process.env.NODE_ENV === 'production') {
-    const clientBuildPath = path.join(__dirname, '../client/dist');
-    app.use(express.static(clientBuildPath));
-    
-    app.get('*', (req, res) => {
-        res.sendFile(path.join(clientBuildPath, 'index.html'));
-    });
-}
 
 app.use((err, req, res, next) => {
     console.error('SERVER LEVEL GLOBAL ERROR:', err.stack);

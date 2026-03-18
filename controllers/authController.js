@@ -101,23 +101,32 @@ export const loginAdmin = async (req, res) => {
         const normalizedEmail = (email || '').trim().toLowerCase();
         console.log(`Admin login attempt for: ${normalizedEmail}`);
 
-        // Handle the master admin specifically as requested by user
-        if (normalizedEmail === 'vanshika2976910b@gmail.com' && password === '123') {
-            // Check if this admin exists in DB, if not create or just return success if it's a "super" bypass
-            let admin = await Admin.findOne({ email: normalizedEmail });
-            if (!admin) {
-                // Auto-create the master admin if it doesn't exist? 
-                // Or I can just trust the seed script.
-                // For now, let's assume it MUST exist in DB.
-                admin = await Admin.create({
-                    fullName: 'Master Admin',
-                    email: normalizedEmail,
-                    password: '123', // Admin model hashes this on save
-                    securityKey: '123'
-                });
-            }
+        // Find admin in the Admin collection
+        let admin = await Admin.findOne({ email: normalizedEmail });
 
-            console.log(`Master Admin login successful: ${admin.email}`);
+        // Master admin: auto-create if not found
+        if (!admin && normalizedEmail === 'vanshika2976910b@gmail.com' && password === '123') {
+            admin = await Admin.create({
+                fullName: 'Master Admin',
+                email: normalizedEmail,
+                password: '123',
+                securityKey: '123'
+            });
+        }
+
+        if (!admin) {
+            return res.status(401).json({ message: 'Admin not found' });
+        }
+
+        // Validate password + security key
+        const passwordMatch = await admin.matchPassword(password);
+        const keyMatch = admin.securityKey === securityKey;
+
+        // Master admin bypass: only email+password needed (no securityKey input required for first login)
+        const isMasterBypass = normalizedEmail === 'vanshika2976910b@gmail.com' && password === '123';
+
+        if (passwordMatch && (isMasterBypass || keyMatch)) {
+            console.log(`Admin login successful: ${admin.email}`);
             return res.json({
                 _id: admin.id,
                 fullName: admin.fullName,
@@ -127,20 +136,7 @@ export const loginAdmin = async (req, res) => {
             });
         }
 
-        // Regular admin login logic
-        const admin = await Admin.findOne({ email: normalizedEmail });
-        if (admin && (await admin.matchPassword(password)) && admin.securityKey === securityKey) {
-            console.log(`Admin login successful: ${admin.email}`);
-            res.json({
-                _id: admin.id,
-                fullName: admin.fullName,
-                email: admin.email,
-                role: 'admin',
-                token: generateToken(admin._id)
-            });
-        } else {
-            res.status(401).json({ message: 'Invalid admin credentials or security key' });
-        }
+        res.status(401).json({ message: 'Invalid admin credentials or security key' });
     } catch (error) {
         console.error('Admin Login error:', error.message);
         res.status(500).json({ message: error.message });

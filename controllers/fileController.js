@@ -1,6 +1,7 @@
 import path from 'path';
 import File from '../models/File.js';
 import User from '../models/User.js';
+import Admin from '../models/Admin.js';
 import { upload, deleteFileFromStorage, isCloudinary } from '../utils/storage.js';
 import https from 'https';
 import http from 'http';
