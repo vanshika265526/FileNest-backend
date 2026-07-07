@@ -10,6 +10,9 @@ import fileRoutes from './routes/fileRoutes.js';
 
 dotenv.config();
 
+// Disable strict TLS verification to bypass local firewall/antivirus/proxy SSL interception
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -18,7 +21,11 @@ const app = express();
 // Middleware
 const allowedOrigins = [
     "https://file-nest-frontend.vercel.app",
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "http://localhost:5176",
+    "http://localhost:5177"
 ];
 
 app.use(cors({

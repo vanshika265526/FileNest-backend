@@ -26,7 +26,6 @@ if (isCloudinary) {
         params: {
             folder: 'minidrive-uploads',
             upload_preset: 'minidrive-uploads',
-            allowed_formats: ['jpg', 'png', 'pdf', 'txt', 'zip', 'doc', 'docx', 'xls', 'xlsx'],
             resource_type: 'auto'
         }
     });
